@@ -1,0 +1,243 @@
+/* Background tema galaksi */
+/* Latar belakang tema galaksi */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: radial-gradient(circle, rgba(10, 10, 30, 1) 10%, rgba(0, 0, 0, 1) 90%);
+    background-size: cover;
+    color: white;
+    overflow: hidden; /* Mencegah scroll berlebih */
+    position: relative;
+}
+
+/* Overlay gambar galaksi */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://source.unsplash.com/1600x900/?galaxy,stars') no-repeat center center fixed;
+    background-size: cover;
+    opacity: 0.3; /* Agar tidak mengganggu teks */
+    z-index: -1;
+}
+
+/* Animasi bintang berkedip */
+@keyframes twinkle {
+    0% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.3; transform: scale(1); }
+}
+
+/* Kontainer bintang */
+.stars-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+/* Gaya bintang */
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 5px white;
+    opacity: 0.6;
+    animation: twinkle 3s infinite alternate;
+}
+
+/* Menempatkan bintang di berbagai lokasi */
+.star:nth-child(1) { top: 10%; left: 20%; width: 3px; height: 3px; animation-duration: 2s; }
+.star:nth-child(2) { top: 30%; left: 50%; width: 4px; height: 4px; animation-duration: 3s; }
+.star:nth-child(3) { top: 70%; left: 80%; width: 2px; height: 2px; animation-duration: 2.5s; }
+.star:nth-child(4) { top: 50%; left: 10%; width: 5px; height: 5px; animation-duration: 4s; }
+.star:nth-child(5) { top: 20%; left: 70%; width: 3px; height: 3px; animation-duration: 3.5s; }
+.star:nth-child(6) { top: 80%; left: 40%; width: 2px; height: 2px; animation-duration: 2s; }
+.star:nth-child(7) { top: 60%; left: 90%; width: 4px; height: 4px; animation-duration: 3.5s; }
+.star:nth-child(8) { top: 15%; left: 5%; width: 3px; height: 3px; animation-duration: 4s; }
+.star:nth-child(9) { top: 75%; left: 25%; width: 5px; height: 5px; animation-duration: 2.5s; }
+.star:nth-child(10) { top: 45%; left: 60%; width: 3px; height: 3px; animation-duration: 3s; }
+
+
+ /* Efek animasi meteor jatuh */
+ @keyframes shooting-star {
+    0% {
+        transform: translateX(0) translateY(0) rotate(var(--angle));
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(var(--moveX)) translateY(var(--moveY)) rotate(var(--angle));
+        opacity: 0;
+    }
+}
+
+/* Kontainer meteor */
+.meteor-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Gaya meteor dengan ekor lebih tebal */
+.meteor {
+    position: absolute;
+    width: 12px;
+    height: 4px;
+    background: linear-gradient(90deg, white, rgba(255, 255, 255, 0));
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.9);
+    opacity: 0;
+    transform: rotate(45deg);
+    filter: blur(2px);
+    animation: shooting-star linear infinite;
+}
+
+/* Judul */
+h1 {
+    margin-top: 20px;
+    text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.8);
+    background: rgba(0, 0, 0, 0.5); /* Latar belakang transparan */
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+}
+
+
+/* Mode Selection */
+.mode-selection {
+    margin: 20px;
+}
+
+
+/* Container papan */
+.board-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Papan permainan dengan efek neon */
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+    grid-template-rows: repeat(3, minmax(120px, 1fr));
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.3);
+    border: 4px solid rgba(173, 216, 230, 0.5);
+    max-width: 90vw;
+    max-height: 90vh;
+}
+
+/* Sel permainan dengan efek galaksi */
+.cell {
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, rgba(0, 0, 50, 0.8), rgba(0, 0, 100, 0.8));
+    border: 3px solid rgba(255, 255, 255, 0.7);
+    font-size: 3em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    text-shadow: 0 0 10px rgba(173, 216, 230, 1), 0 0 20px rgba(173, 216, 230, 0.8);
+    transition: transform 0.2s ease, background 0.3s ease;
+}
+
+/* Efek saat diambil */
+.cell.taken {
+    cursor: not-allowed;
+}
+
+/* Efek untuk simbol X dan O */
+.cell::after {
+    transition: transform 0.3s ease;
+}
+
+.cell.taken::after {
+    transform: scale(1.2);
+}
+
+/* X berwarna biru neon, O berwarna ungu neon */
+.cell:contains('X') {
+    color: cyan;
+    text-shadow: 0 0 20px cyan, 0 0 30px cyan;
+}
+
+.cell:contains('O') {
+    color: magenta;
+    text-shadow: 0 0 20px magenta, 0 0 30px magenta;
+}
+
+/* Responsif untuk layar kecil */
+@media (max-width: 600px) {
+    .board {
+        grid-template-columns: repeat(3, minmax(80px, 1fr));
+        grid-template-rows: repeat(3, minmax(80px, 1fr));
+        gap: 5px;
+        padding: 10px;
+    }
+    
+    .cell {
+        font-size: 2em;
+        border: 2px solid rgba(255, 255, 255, 0.7);
+    }
+}
+
+
+/* Tombol dengan efek luar angkasa */
+button {
+    background: rgba(0, 0, 50, 0.8);
+    color: white;
+    border: 2px solid rgba(173, 216, 230, 0.7);
+    padding: 10px 20px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background: rgba(50, 50, 150, 0.9);
+    transform: scale(1.1);
+}
+
+button:active {
+    transform: scale(0.9);
+}
+
+/* Scoreboard */
+.scoreboard {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.score-box {
+    width: 100px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9em;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 5px rgba(255, 255, 255, 0.2);
+    text-align: center;
+    padding: 1px;
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe - Melawan Bot</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="game-bot.js"></script>
+</head>
+<body>
+    <div class="stars-container">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+    <div class="meteor-container">
+        <div class="meteor"></div>
+        <div class="meteor"></div>
+        <div class="meteor"></div>
+        <div class="meteor"></div>
+        <div class="meteor"></div>
+    </div>
+    
+    <div class="container">
+        <h1>Vs Bot</h1>
+        <div class="board-container">
+            <div class="board" id="board"></div>
+        </div>
+        <div class="scoreboard">
+            <div class="score-box">Score X: <span id="score-x">0</span></div>
+            <div class="score-box">Score O: <span id="score-o">0</span></div>
+            <div class="score-box">Draw: <span id="score-draw">0</span></div>
+        </div>
+        <button id="reset">Reset Game</button>
+        <button id="reset-score">Reset Skor</button>
+        <button onclick="location.href='index.html'">Kembali ke Beranda</button>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const meteorContainer = document.querySelector(".meteor-container");
+
+            function createMeteor() {
+                const meteor = document.createElement("div");
+                meteor.classList.add("meteor");
+
+                // Posisi awal acak
+                let startX = Math.random() * window.innerWidth;
+                let startY = Math.random() * window.innerHeight * 0.2; // 20% atas layar
+                
+                if (Math.random() > 0.5) {
+                    startX = Math.random() > 0.5 ? -50 : window.innerWidth + 50; // Muncul dari luar kiri/kanan layar
+                    startY = Math.random() * window.innerHeight * 0.8; // Bisa lebih rendah jika dari samping
+                }
+
+                // Gerakan acak (jatuh diagonal)
+                let moveX = (Math.random() - 0.5) * 800; // Lebih variatif
+                let moveY = Math.random() * 600 + 400; // Lebih panjang perjalanannya
+                let angle = Math.random() * 20 + 35; // Sudut rotasi antara 35-55 derajat
+
+                meteor.style.setProperty("--moveX", `${moveX}px`);
+                meteor.style.setProperty("--moveY", `${moveY}px`);
+                meteor.style.setProperty("--angle", `${angle}deg`);
+                meteor.style.left = `${startX}px`;
+                meteor.style.top = `${startY}px`;
+                meteor.style.animationDuration = `${Math.random() * 1.5 + 1.5}s`; // 1.5s - 3s
+                meteor.style.animationDelay = `${Math.random() * 3}s`; // Acak delay antar meteor
+
+                meteorContainer.appendChild(meteor);
+
+                // Hapus setelah animasi selesai agar tidak menumpuk
+                setTimeout(() => meteor.remove(), 3500);
+            }
+
+            // Memunculkan beberapa meteor bersamaan
+            function spawnMeteors() {
+                let meteorCount = Math.floor(Math.random() * 3) + 2; // 2-4 meteor sekaligus
+                for (let i = 0; i < meteorCount; i++) {
+                    createMeteor();
+                }
+            }
+
+            // Jalankan setiap 1 detik untuk membuat meteor baru
+            setInterval(spawnMeteors, 1000);
+        });
+    </script>
+</body>
+</html>
