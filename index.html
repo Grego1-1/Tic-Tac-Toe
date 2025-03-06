@@ -27,21 +27,35 @@
         <div class="meteor"></div>
     </div>
     
-    <style>.container {
-        height: 100vh;
-        display: flex;
-        flex-direction: column; /* Susun elemen secara vertikal */
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        gap: 15px;} /* Beri jarak antar elemen */
+    <style>
+        .container {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 15px;
+        }
     </style>
+    
     <div class="container">
         <h1>Selamat Datang di Tic-Tac-Toe Galaksi</h1>
         <p>Pilih mode permainan:</p>
         <button onclick="location.href='2player.html'">2 Player</button>
-        <button onclick="location.href='bot.html'">VS Bot</button>
+        <button id="botButton">VS Bot</button>
     </div>
+    
+    <div id="botModeModal" class="modal">
+        <div class="modal-content">
+            <h2>Pilih Mode VS Bot</h2>
+            <button id="normalMode">Normal</button>
+            <button id="impossibleMode">Impossible</button>
+            <button id="closeModal">Tutup</button>
+        </div>
+    </div>
+    
+    
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const meteorContainer = document.querySelector(".meteor-container");
@@ -50,45 +64,85 @@
                 const meteor = document.createElement("div");
                 meteor.classList.add("meteor");
 
-                // Posisi awal acak
                 let startX = Math.random() * window.innerWidth;
-                let startY = Math.random() * window.innerHeight * 0.2; // 20% atas layar
+                let startY = Math.random() * window.innerHeight * 0.2;
                 
                 if (Math.random() > 0.5) {
-                    startX = Math.random() > 0.5 ? -50 : window.innerWidth + 50; // Muncul dari luar kiri/kanan layar
-                    startY = Math.random() * window.innerHeight * 0.8; // Bisa lebih rendah jika dari samping
+                    startX = Math.random() > 0.5 ? -50 : window.innerWidth + 50;
+                    startY = Math.random() * window.innerHeight * 0.8;
                 }
 
-                // Gerakan acak (jatuh diagonal)
-                let moveX = (Math.random() - 0.5) * 800; // Lebih variatif
-                let moveY = Math.random() * 600 + 400; // Lebih panjang perjalanannya
-                let angle = Math.random() * 20 + 35; // Sudut rotasi antara 35-55 derajat
+                let moveX = (Math.random() - 0.5) * 800;
+                let moveY = Math.random() * 600 + 400;
+                let angle = Math.random() * 20 + 35;
 
                 meteor.style.setProperty("--moveX", `${moveX}px`);
                 meteor.style.setProperty("--moveY", `${moveY}px`);
                 meteor.style.setProperty("--angle", `${angle}deg`);
                 meteor.style.left = `${startX}px`;
                 meteor.style.top = `${startY}px`;
-                meteor.style.animationDuration = `${Math.random() * 1.5 + 1.5}s`; // 1.5s - 3s
-                meteor.style.animationDelay = `${Math.random() * 3}s`; // Acak delay antar meteor
+                meteor.style.animationDuration = `${Math.random() * 1.5 + 1.5}s`;
+                meteor.style.animationDelay = `${Math.random() * 3}s`;
 
                 meteorContainer.appendChild(meteor);
 
-                // Hapus setelah animasi selesai agar tidak menumpuk
                 setTimeout(() => meteor.remove(), 3500);
             }
 
-            // Memunculkan beberapa meteor bersamaan
             function spawnMeteors() {
-                let meteorCount = Math.floor(Math.random() * 3) + 2; // 2-4 meteor sekaligus
+                let meteorCount = Math.floor(Math.random() * 3) + 2;
                 for (let i = 0; i < meteorCount; i++) {
                     createMeteor();
                 }
             }
 
-            // Jalankan setiap 1 detik untuk membuat meteor baru
             setInterval(spawnMeteors, 1000);
         });
+
+        document.addEventListener("DOMContentLoaded", () => {
+    const modal = document.getElementById("botModeModal");
+    const normalMode = document.getElementById("normalMode");
+    const impossibleMode = document.getElementById("impossibleMode");
+    const closeModal = document.getElementById("closeModal");
+    const botButton = document.getElementById("botButton"); // Ambil tombol dengan ID
+
+    // Pastikan modal tersembunyi saat halaman pertama kali dimuat
+    modal.style.display = "none";
+
+    function openBotModeModal() {
+        modal.style.display = "flex"; // Tampilkan modal saat tombol diklik
+    }
+
+    // Event listener untuk tombol VS Bot
+    botButton.addEventListener("click", (event) => {
+        event.preventDefault(); // Mencegah aksi default jika ada
+        openBotModeModal();
+    });
+
+    // Pilih mode Normal
+    normalMode.addEventListener("click", () => {
+        location.href = "bot_normal.html";
+    });
+
+    // Pilih mode Imposibel
+    impossibleMode.addEventListener("click", () => {
+        location.href = "bot.html";
+    });
+
+    // Tutup modal saat tombol "Tutup" diklik
+    closeModal.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // Tutup modal jika klik di luar kontennya
+    window.addEventListener("click", (event) => {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+
+
     </script>
 </body>
 </html>
